@@ -8,6 +8,9 @@ class App extends React.Component {
     if (!manager) {
       return null;
     }
+    Flex.Actions.addListener("afterAcceptTask", (payload) => {
+      window.$callData = payload
+    })
 
     return (
       <Flex.ContextProvider manager={manager}>
