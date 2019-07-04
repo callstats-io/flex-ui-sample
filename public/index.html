@@ -6,7 +6,10 @@
     <meta name="referrer" content="no-referrer">
     <title>Twilio Flex</title>
     <script src="https://api.callstats.io/static/callstats.min.js"></script>
-    <script> 
+    <script src="/assets/appConfig.js"></script>
+    <script>
+    var $APP_ID = APP_ID;
+    var $APP_SECRET = APP_SECRET;
     var $callData = null;
     function isAmazonPC(pcConfig) {
       if (!pcConfig) {
@@ -66,9 +69,7 @@
 
     initPCShim(); 
     var callStats = new callstats();
-    let result = callStats.initialize('APP_ID', "APP_SECRET", "USER");
     </script>
-    <script src="/assets/appConfig.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   </head>
   <body>
