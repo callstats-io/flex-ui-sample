@@ -4,8 +4,8 @@ services:
     build:
       context: ../flex-ui-sample
     environment:
-      APP_ID: ''
-      APP_SECRET: ''
+      REACT_APP_ID: ''
+      REACT_APP_SECRET: ''
     ports:
       - "8080:8080"
     command: npm start
