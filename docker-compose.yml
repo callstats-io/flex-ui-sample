@@ -1,0 +1,11 @@
+version: '3'
+services:
+  twilio-flex-demo:
+    build:
+      context: ../flex-ui-sample
+    environment:
+      APP_ID: ''
+      APP_SECRET: ''
+    ports:
+      - "8080:8080"
+    command: npm start

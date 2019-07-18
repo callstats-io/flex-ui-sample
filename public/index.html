@@ -8,8 +8,9 @@
     <script src="https://api.callstats.io/static/callstats.min.js"></script>
     <script src="/assets/appConfig.js"></script>
     <script>
-    var $APP_ID = APP_ID;
-    var $APP_SECRET = APP_SECRET;
+    var $APP_ID = process.env.APP_ID;
+    var $APP_SECRET = process.env.APP_SECRET;
+    console.log($APP_ID, $APP_SECRET, 'asdasa')
     var $callData = null;
     function isAmazonPC(pcConfig) {
       if (!pcConfig) {
