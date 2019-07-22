@@ -5,6 +5,7 @@ COPY package.json /src/app/
 RUN npm install --silent
 
 COPY . /src/app
-# RUN npm build
+RUN npm run build
+RUN npm install -g serve
 
-CMD ["npm","start"]
+CMD ["serve","-s","build”]
