@@ -8,4 +8,4 @@ COPY . /src/app
 RUN npm run build
 RUN npm install -g serve
 
-CMD ["serve","-s","build”]
+ENTRYPOINT ["serve","-s","build","-l","8080"]
