@@ -15,3 +15,5 @@ RUN cp -a public /var/www/
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
+
+ENTRYPOINT /bin/bash -c "/usr/bin/envsubst < /src/app/.env.template > /src/app/.env && ./env.sh && cp env-config.js /var/www/public/ && exec nginx -g 'daemon off;'"
