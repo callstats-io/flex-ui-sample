@@ -8,3 +8,4 @@ services:
       REACT_APP_SECRET: ''
     ports:
       - "8080:8080"
+    command: /bin/bash -c "/usr/bin/envsubst < /src/app/.env.template > /src/app/.env && ./env.sh && cp env-config.js /var/www/public/ &&exec nginx -g 'daemon off;'"
