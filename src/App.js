@@ -3,8 +3,8 @@ import * as Flex from "@twilio/flex-ui";
 
 class App extends React.Component {
   componentDidMount () {
-    const APP_ID = process.env.REACT_APP_ID 
-    const APP_SECRET = process.env.REACT_APP_SECRET 
+    const APP_ID = window._env_.REACT_APP_ID 
+    const APP_SECRET = window._env_.REACT_APP_SECRET 
     const userName = this.props.manager.workerClient.attributes.full_name
 
     const script = document.createElement("script");
