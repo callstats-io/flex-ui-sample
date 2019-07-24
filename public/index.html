@@ -29,6 +29,22 @@
       console.log("Monitoring status: "+ err + " msg: " + msg);
     };
 
+    function preCallTestResultsCallback(status, results) {
+      //Check the status
+      if (status == callStats.callStatsAPIReturnStatus.success) {
+        //Results
+        var connectivity = results.mediaConnectivity;
+        var rtt = results.rtt;
+        var loss = results.fractionalLoss;
+        var throughput = results.throughput;
+
+      }
+      else {
+        console.log("Pre-call test could not be run");
+      }
+
+    }
+
     function initPCShim () {
       var origPeerConnection = window.RTCPeerConnection;
       window.RTCPeerConnection = function(pcConfig, pcConstraints) {
@@ -45,6 +61,13 @@
               if ($callData.task.defaultFrom && $callData.task.conference) {
                 // sending fabric data
                 callStats.addNewFabric(pc, $callData.task.defaultFrom, callStats.fabricUsage.multiplex, $callData.task.conference.conferenceSid, null, pcCallback)
+                var callDetails = {
+                  contactID: $callData.task.conference.conferenceSid,
+                  callType: 'inbound',
+                  siteID: 'callstats Twilio Flex',
+                  role: 'agent'
+                }
+                callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
                 return
               }
               setTimeout(function() {

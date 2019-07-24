@@ -9,7 +9,9 @@ class App extends React.Component {
 
     const script = document.createElement("script");
     script.type = 'text/javascript';
-    script.innerHTML = "callStats.initialize('" + APP_ID + "', '" + APP_SECRET + "', '" + userName + "');";
+    script.innerHTML = "callStats.initialize('" + APP_ID + "', '" + APP_SECRET + "', '" + userName + "');"
+      + "callStats.on('preCallTestResults', preCallTestResultsCallback);"
+      + "setInterval(() => callStats.makePrecallTest(), 120000)";
     script.async = true;
 
     document.body.appendChild(script);
