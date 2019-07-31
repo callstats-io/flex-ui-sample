@@ -26,9 +26,11 @@ class App extends React.Component {
       window.$callData = payload
     })
     Flex.Actions.addListener("afterHangupCall", (payload) => {
+      script.innerHTML = "window.CallstatsJabraShim.stopJabraMonitoring()";
       console.log(payload.sid, payload.task.conference.conferenceSid, 'afterHangupCall')
     })
     Flex.Actions.addListener("afterCompleteTask", (payload) => {
+      script.innerHTML = "window.CallstatsJabraShim.stopJabraMonitoring()";
       console.log(payload.sid, payload.task.conference.conferenceSid, 'afterCompleteTask')
     })
 

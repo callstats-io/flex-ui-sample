@@ -6,6 +6,7 @@
     <meta name="referrer" content="no-referrer">
     <title>Twilio Flex</title>
     <script src="https://api.callstats.io/static/callstats.min.js"></script>
+    <script src="https://api.callstats.io/static/callstats-jabra-shim.js"></script>
     <script src="%PUBLIC_URL%/public/env-config.js"></script>
     <script>
     var $callData = null;
@@ -69,6 +70,7 @@
                     role: 'agent'
                   }
                   callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
+                  CallstatsJabraShim.startJabraMonitoring(null, callDetails.contactID);
                   return
                 }
               }
@@ -92,6 +94,7 @@
 
     initPCShim(); 
     var callStats = new callstats();
+    window.CallstatsJabraShim.initialize(callStats);
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   </head>
