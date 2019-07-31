@@ -25,6 +25,12 @@ class App extends React.Component {
     Flex.Actions.addListener("afterAcceptTask", (payload) => {
       window.$callData = payload
     })
+    Flex.Actions.addListener("afterHangupCall", (payload) => {
+      console.log(payload.sid, payload.task.conference.conferenceSid, 'afterHangupCall')
+    })
+    Flex.Actions.addListener("afterCompleteTask", (payload) => {
+      console.log(payload.sid, payload.task.conference.conferenceSid, 'afterCompleteTask')
+    })
 
     return (
       <Flex.ContextProvider manager={manager}>

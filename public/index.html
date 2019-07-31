@@ -59,16 +59,18 @@
             const maxNoAttempt = 30;
             function attemptingtoSendData() {
               if ($callData.task.defaultFrom && $callData.task.conference) {
-                // sending fabric data
-                callStats.addNewFabric(pc, $callData.task.defaultFrom, callStats.fabricUsage.multiplex, $callData.task.conference.conferenceSid, null, pcCallback)
-                var callDetails = {
-                  contactID: $callData.task.conference.conferenceSid,
-                  callType: 'inbound',
-                  siteID: 'callstats Twilio Flex',
-                  role: 'agent'
+                if ($callData.task.conference.conferenceSid) {
+                  // sending fabric data
+                  callStats.addNewFabric(pc, $callData.task.defaultFrom, callStats.fabricUsage.multiplex, $callData.task.conference.conferenceSid, null, pcCallback)
+                  var callDetails = {
+                    contactID: $callData.task.conference.conferenceSid,
+                    callType: 'inbound',
+                    siteID: 'callstats Twilio Flex',
+                    role: 'agent'
+                  }
+                  callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
+                  return
                 }
-                callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
-                return
               }
               setTimeout(function() {
                 attemptToSendFabricData++;
