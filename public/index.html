@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="referrer" content="no-referrer">
     <title>Twilio Flex</title>
+    <script src="https://gnaudio.github.io/jabra-browser-integration/JavaScriptLibrary/jabra.browser.integration-2.0.js"></script>
     <script src="https://api.callstats.io/static/callstats.min.js"></script>
     <script src="https://api.callstats.io/static/callstats-jabra-shim.js"></script>
     <script src="%PUBLIC_URL%/public/env-config.js"></script>
@@ -70,7 +71,7 @@
                     role: 'agent'
                   }
                   callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
-                  CallstatsJabraShim.startJabraMonitoring(null, callDetails.contactID);
+                  CallstatsJabraShim.startJabraMonitoring(callDetails.contactID);
                   return
                 }
               }
