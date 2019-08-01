@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="referrer" content="no-referrer">
     <title>Twilio Flex</title>
+    <script src="https://gnaudio.github.io/jabra-browser-integration/JavaScriptLibrary/jabra.browser.integration-2.0.js"></script>
     <script src="https://api.callstats.io/static/callstats.min.js"></script>
+    <script src="https://api.callstats.io/static/callstats-jabra-shim.js"></script>
+    <script src="%PUBLIC_URL%/public/env-config.js"></script>
     <script>
     var $callData = null;
     function isAmazonPC(pcConfig) {
@@ -28,6 +31,22 @@
       console.log("Monitoring status: "+ err + " msg: " + msg);
     };
 
+    function preCallTestResultsCallback(status, results) {
+      //Check the status
+      if (status == callStats.callStatsAPIReturnStatus.success) {
+        //Results
+        var connectivity = results.mediaConnectivity;
+        var rtt = results.rtt;
+        var loss = results.fractionalLoss;
+        var throughput = results.throughput;
+
+      }
+      else {
+        console.log("Pre-call test could not be run");
+      }
+
+    }
+
     function initPCShim () {
       var origPeerConnection = window.RTCPeerConnection;
       window.RTCPeerConnection = function(pcConfig, pcConstraints) {
@@ -42,9 +61,19 @@
             const maxNoAttempt = 30;
             function attemptingtoSendData() {
               if ($callData.task.defaultFrom && $callData.task.conference) {
-                // sending fabric data
-                callStats.addNewFabric(pc, $callData.task.defaultFrom, callStats.fabricUsage.multiplex, $callData.task.conference.conferenceSid, null, pcCallback)
-                return
+                if ($callData.task.conference.conferenceSid) {
+                  // sending fabric data
+                  callStats.addNewFabric(pc, $callData.task.defaultFrom, callStats.fabricUsage.multiplex, $callData.task.conference.conferenceSid, null, pcCallback)
+                  var callDetails = {
+                    contactID: $callData.task.conference.conferenceSid,
+                    callType: 'inbound',
+                    siteID: 'callstats Twilio Flex',
+                    role: 'agent'
+                  }
+                  callStats.sendCallDetails(pc, $callData.task.conference.conferenceSid, callDetails);
+                  CallstatsJabraShim.startJabraMonitoring(callDetails.contactID);
+                  return
+                }
               }
               setTimeout(function() {
                 attemptToSendFabricData++;
@@ -66,6 +95,7 @@
 
     initPCShim(); 
     var callStats = new callstats();
+    window.CallstatsJabraShim.initialize(callStats);
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   </head>
