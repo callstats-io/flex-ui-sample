@@ -7,14 +7,9 @@ class App extends React.Component {
     const APP_SECRET = window._env_.REACT_APP_SECRET 
     const userName = this.props.manager.workerClient.attributes.full_name
 
-    const script = document.createElement("script");
-    script.type = 'text/javascript';
-    script.innerHTML = "callStats.initialize('" + APP_ID + "', '" + APP_SECRET + "', '" + userName + "');"
-      + "callStats.on('preCallTestResults', preCallTestResultsCallback);"
-      + "setInterval(() => callStats.makePrecallTest(), 120000)";
-    script.async = true;
-
-    document.body.appendChild(script);
+    window.callStats.initialize(APP_ID, APP_SECRET, userName)
+    window.callStats.on('preCallTestResults', window.preCallTestResultsCallback)
+    setInterval(() => window.callStats.makePrecallTest(), 120000)
   }
   render() {
     const { manager } = this.props;
@@ -25,21 +20,11 @@ class App extends React.Component {
     Flex.Actions.addListener("afterAcceptTask", (payload) => {
       window.$callData = payload
     })
-    Flex.Actions.addListener("afterHangupCall", (payload) => {
-      const script = document.createElement("script");
-      script.type = 'text/javascript';
-      script.innerHTML = "window.CallstatsJabraShim.stopJabraMonitoring()"
-      script.async = true;
-
-      document.body.appendChild(script);
+    Flex.Actions.addListener("afterHangupCall", () => {
+      window.CallstatsJabraShim.stopJabraMonitoring()
     })
-    Flex.Actions.addListener("afterCompleteTask", (payload) => {
-      const script = document.createElement("script");
-      script.type = 'text/javascript';
-      script.innerHTML = "window.CallstatsJabraShim.stopJabraMonitoring()"
-      script.async = true;
-
-      document.body.appendChild(script);
+    Flex.Actions.addListener("afterCompleteTask", () => {
+      window.CallstatsJabraShim.stopJabraMonitoring()
     })
 
     return (
